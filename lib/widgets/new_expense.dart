@@ -83,7 +83,7 @@ class _NewExpenseState extends State<NewExpense> {
             ),
 
             Row(
-
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: TextField(
@@ -104,7 +104,7 @@ class _NewExpenseState extends State<NewExpense> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          selectedDate == null ? 'No Date Selected' : formatter.format(selectedDate!),
+                          selectedDate == null ? 'Choose Date' : formatter.format(selectedDate!),
                         ),
                         IconButton(onPressed: _presentDatePicker, icon: Icon(Icons.calendar_month)),
 
