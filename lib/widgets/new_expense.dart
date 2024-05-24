@@ -1,3 +1,8 @@
+
+import 'dart:io';
+import 'dart:io' show Platform;
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../model/expense.dart';
@@ -40,6 +45,41 @@ class _NewExpenseState extends State<NewExpense> {
 
   Category selectedCategory = Category.leisure;
 
+  void dialog(){
+    if(Platform.isIOS) {
+      showCupertinoDialog(context: context, builder: (ctx) => CupertinoAlertDialog(
+        title: Text('Invalid Input'),
+        content: Text(
+            'Please make sure you have entered a valid title, amount, date'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+            },
+            child: Text('Okay'),
+          ),
+        ],
+      ));
+    }
+    else if(Platform.isAndroid){
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Invalid Input'),
+            content: Text(
+                'Please make sure you have entered a valid title, amount, date'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                },
+                child: Text('Okay'),
+              ),
+            ],
+          ));
+    }
+  }
+
   void submitExpenseData() {
     final enteredAmount = double.tryParse(_amountController.text.trim());
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
@@ -47,21 +87,7 @@ class _NewExpenseState extends State<NewExpense> {
         _titleController.text.trim().isEmpty ||
         selectedDate == null) {
       //error
-      showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: Text('Invalid Input'),
-                content: Text(
-                    'Please make sure you have entered a valid title, amount, date'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(ctx);
-                    },
-                    child: Text('Okay'),
-                  ),
-                ],
-              ));
+     dialog();
       return;
     }
 
